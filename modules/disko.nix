@@ -12,25 +12,28 @@ in
       content = {
         type = "gpt";
         partitions = {
-          ESP = {
-            label = "EFI";
-            size = "512M";
-            type = "EF00";
-            content = {
-              type = "filesystem";
+        ESP = {
+          label = "EFI";
+          priority = 1;
+          start = "1M";
+          end = "512M";
+          size = "512M";
+          type = "EF00";
+          content = {
+            type = "filesystem";
               format = "vfat";
               mountpoint = "/boot";
               mountOptions = [ "umask=0077" ];
             };
           };
 
-          root = {
-            size = "100%";
-            type = "8300";
-            content = {
-              type = "btrfs";
-              extraArgs = [ "-f" ];
-              subvolumes = {
+        root = {
+          size = "100%";
+          content = {
+            type = "btrfs";
+            mountpoint = "/partition-root";
+            extraArgs = [ "-f" ];
+            subvolumes = {
                 "/@root" = {
                   mountpoint = "/";
                   mountOptions = relatimeMountOptions;
