@@ -26,6 +26,7 @@ in
 
           root = {
             size = vmConfig.diskSize;
+            type = "8300";
             content = {
               type = "btrfs";
               extraArgs = [ "-f" ];
