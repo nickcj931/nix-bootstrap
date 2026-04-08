@@ -1,6 +1,6 @@
 # nix-bootstrap
 
-A lightweight NixOS bootstrap repository designed to quickly deploy configured VMs using `disko` and Flakes.
+A lightweight NixOS bootstrap repository designed to quickly deploy configured VMs using `disko` and Flakes. This version supports **Cloud-Init** for automated SSH key injection.
 
 ## Quick Start (from NixOS Live ISO)
 
@@ -12,19 +12,23 @@ Once booted into the NixOS installer:
    cd nix-bootstrap
    ```
 
-2. **Configure your variables**:
-   Edit `flake.nix` to set your preferred disk size, device path, and SSH keys.
-   *Note: Do not commit your actual SSH keys to a public repository! Use the placeholder values as a guide.*
+2. **Configure Proxmox Cloud-Init (on your Host)**:
+   Before booting the VM, inject your SSH keys using the Proxmox CLI to avoid manual typing in the console:
+   ```bash
+   # Replace <VMID> with your target VM ID
+   qm set <VMID> --ipconfig0 ip=dhcp
+   qm set <VMID> --sshkey /path/to/your/public_key.pub
+   ```
 
 3. **Run the installation**:
    ```bash
-   sudo nixos-install --flake .#generic
+   sudo nixos-install --flake .#generic-vm
    ```
 
 ## Features
 
 - **Automated Partitioning**: Uses `disko` for consistent Btrfs subvolume layouts.
-- **Pre-configured SSH**: Includes authorized keys via configurable module.
+- **Cloud-Init Support**: Enables seamless, headless SSH key injection.
 - **Flake-based**: Reproducible and easy to extend.
 
 ## Repository Structure

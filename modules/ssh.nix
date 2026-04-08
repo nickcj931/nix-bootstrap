@@ -1,15 +1,22 @@
-{ lib, ... }:
 {
-  options.bootstrapping.sshKeys = lib.mkOption {
-    type = lib.types.listOf lib.types.str;
-    default = [];
-    description = "List of SSH public keys for the root user.";
-  };
-
-  config = {
-    users.users.root.openssh.authorizedKeys.keys = config.bootstrapping.sshKeys;
-    services.openssh.enable = true;
-    services.openssh.settings.PasswordAuthentication = false;
-    services.openssh.settings.KbdInteractiveAuthentication = false;
-  };
+  "services.cloud-init": {
+    "enable": true,
+    "network": {
+      "enable": true,
+      "dhcp": true
+    },
+    "users": {
+      "users.root.openssh.authorizedKeys.keys": [
+        "<INSERT YOUR KEY 1>",
+        "<INSERT YOUR KEY 2>"
+      ]
+    }
+  },
+  "services.openssh": {
+    "enable": true,
+    "settings": {
+      "PasswordAuthentication": false,
+      "KbdInteractiveAuthentication": false
+    }
+  }
 }
