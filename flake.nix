@@ -25,8 +25,11 @@
         ./modules/ssh.nix
         {
           nixpkgs.hostPlatform = vmConfig.hostPlatform;
+
+          boot.loader.grub.enable = false;
           boot.loader.systemd-boot.enable = true;
           boot.loader.efi.canTouchEfiVariables = true;
+          boot.loader.efi.efiSysMountPoint = "/boot";
 
           networking.useDHCP = !vmConfig.useCloudInitNetworking;
           networking.useNetworkd = vmConfig.useCloudInitNetworking;
