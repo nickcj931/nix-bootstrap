@@ -8,7 +8,7 @@ Edit the `vmConfig` block in `flake.nix` before installing.
 
 ```nix
 vmConfig = {
-  diskDevice = "/dev/vda";
+  diskDevice = "/dev/sda";
   diskSize = "100G";
   swapSize = "16G";
   hostPlatform = "x86_64-linux";
@@ -48,12 +48,23 @@ Once booted into the NixOS installer:
    cd nix-bootstrap
    ```
 
-2. **Run the installation**:
+2. **Partition, format, and mount the disk with disko**:
+   ```bash
+   sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
+     --mode destroy,format,mount ./modules/disko.nix
+   ```
+
+3. **Generate hardware config for the mounted system**:
+   ```bash
+   sudo nixos-generate-config --root /mnt
+   ```
+
+4. **Run the installation**:
    ```bash
    sudo nixos-install --flake .#generic-vm
    ```
 
-3. **Reboot** into the installed system. SSH keys will be applied on first boot via Cloud-Init.
+5. **Reboot** into the installed system. SSH keys will be applied on first boot via Cloud-Init.
 
 ## Features
 

@@ -9,7 +9,7 @@
   outputs = { self, nixpkgs, disko }:
   let
     vmConfig = {
-      diskDevice = "/dev/vda";
+      diskDevice = "/dev/sda";
       diskSize = "100G";
       swapSize = "16G";
       hostPlatform = "x86_64-linux";
@@ -26,10 +26,12 @@
         {
           nixpkgs.hostPlatform = vmConfig.hostPlatform;
 
+          # Match the installer environment expectation for EFI installs.
           boot.loader.grub.enable = false;
           boot.loader.systemd-boot.enable = true;
           boot.loader.efi.canTouchEfiVariables = true;
           boot.loader.efi.efiSysMountPoint = "/boot";
+          fileSystems."/boot".neededForBoot = true;
 
           networking.useDHCP = !vmConfig.useCloudInitNetworking;
           networking.useNetworkd = vmConfig.useCloudInitNetworking;
