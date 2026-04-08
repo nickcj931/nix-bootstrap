@@ -10,7 +10,6 @@
   let
     vmConfig = {
       diskDevice = "/dev/sda";
-      diskSize = "100G";
       swapSize = "16G";
       hostPlatform = "x86_64-linux";
       stateVersion = "25.11";

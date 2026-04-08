@@ -9,8 +9,9 @@
 
 ## Disk Layout
 - `modules/disko.nix` is a disko module, not a generic options module. Do not reintroduce `mkOption` definitions under `disko.devices...`; that breaks disko evaluation.
-- Current disk assumptions are driven through `specialArgs.vmConfig`: `diskDevice`, `diskSize`, `swapSize`.
+- Current disk assumptions are driven through `specialArgs.vmConfig`: `diskDevice` and `swapSize`.
 - Root filesystem is Btrfs with subvolumes for `/`, `/home`, `/nix`, `/var`, `/var/log`, `/.snapshots`, and `/.swapvol`.
+- Root partition should stay `size = "100%"`; fixed root partition sizing caused guest partitioning failures during Proxmox installs.
 
 ## Networking
 - `useCloudInitNetworking = true` does not disable DHCP in practice; it switches DHCP management to cloud-init/networkd.

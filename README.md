@@ -9,7 +9,6 @@ Edit the `vmConfig` block in `flake.nix` before installing.
 ```nix
 vmConfig = {
   diskDevice = "/dev/sda";
-  diskSize = "100G";
   swapSize = "16G";
   hostPlatform = "x86_64-linux";
   stateVersion = "25.11";
@@ -18,7 +17,6 @@ vmConfig = {
 ```
 
 - `diskDevice`: target install disk inside the VM
-- `diskSize`: currently unused by `modules/disko.nix`; the root partition is using `100%` of remaining disk to avoid partitioning failures seen in Proxmox guest installs
 - `swapSize`: size of the Btrfs swapfile
 - `hostPlatform`: target system architecture
 - `stateVersion`: NixOS state version for the installed system
@@ -66,6 +64,7 @@ Once booted into the NixOS installer:
 ## Features
 
 - **Automated Partitioning**: Uses `disko` for consistent Btrfs subvolume layouts.
+- **Root Uses Remaining Disk**: The root Btrfs partition intentionally uses `100%` of remaining disk because fixed sizing caused partitioning failures in Proxmox guest installs.
 - **Cloud-Init SSH Injection**: Keys are injected via Proxmox, no manual typing required.
 - **Flake-based**: Reproducible and easy to extend.
 
