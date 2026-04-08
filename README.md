@@ -56,7 +56,7 @@ Once booted into the NixOS installer:
 3. **Manual equivalent if needed**:
    ```bash
    sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
-     --mode destroy,format,mount ./modules/disko.nix
+     --mode destroy,format,mount --flake .#generic-vm
    sudo nixos-generate-config --root /mnt
    sudo nixos-install --flake .#generic-vm
    ```

@@ -5,7 +5,7 @@ ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 
 echo "==> Running disko"
 sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
-  --mode destroy,format,mount "$ROOT_DIR/modules/disko.nix"
+  --mode destroy,format,mount --flake "$ROOT_DIR#generic-vm"
 
 echo "==> Generating hardware configuration"
 sudo nixos-generate-config --root /mnt
