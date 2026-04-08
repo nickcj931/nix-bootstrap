@@ -18,7 +18,7 @@ vmConfig = {
 ```
 
 - `diskDevice`: target install disk inside the VM
-- `diskSize`: size of the Btrfs root partition
+- `diskSize`: currently unused by `modules/disko.nix`; the root partition is using `100%` of remaining disk to avoid partitioning failures seen in Proxmox guest installs
 - `swapSize`: size of the Btrfs swapfile
 - `hostPlatform`: target system architecture
 - `stateVersion`: NixOS state version for the installed system
