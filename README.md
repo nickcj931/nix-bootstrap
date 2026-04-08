@@ -2,6 +2,28 @@
 
 A lightweight NixOS bootstrap repository designed to quickly deploy configured VMs using `disko` and Flakes. This version supports **Cloud-Init** for automated SSH key injection.
 
+## Configure In One Place
+
+Edit the `vmConfig` block in `flake.nix` before installing.
+
+```nix
+vmConfig = {
+  diskDevice = "/dev/vda";
+  diskSize = "100G";
+  swapSize = "16G";
+  hostPlatform = "x86_64-linux";
+  stateVersion = "25.11";
+  useCloudInitNetworking = true;
+};
+```
+
+- `diskDevice`: target install disk inside the VM
+- `diskSize`: size of the Btrfs root partition
+- `swapSize`: size of the Btrfs swapfile
+- `hostPlatform`: target system architecture
+- `stateVersion`: NixOS state version for the installed system
+- `useCloudInitNetworking`: when `true`, networking is managed by cloud-init/networkd; when `false`, fallback to standard DHCP config
+
 ## Prerequisites
 
 Before booting the VM, configure Proxmox Cloud-Init to inject your SSH keys:
@@ -13,6 +35,8 @@ qm set <VMID> --sshkey /root/.ssh/bootstrapKeys.pub
 ```
 
 The bootstrap keys file is pre-configured at `/root/.ssh/bootstrapKeys.pub` on the Proxmox host.
+
+With `useCloudInitNetworking = true`, DHCP is still used, but it is applied via cloud-init/networkd rather than `networking.useDHCP`.
 
 ## Installation (from NixOS Live ISO)
 
