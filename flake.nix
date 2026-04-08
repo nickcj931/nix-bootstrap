@@ -31,6 +31,7 @@
           boot.loader.efi.canTouchEfiVariables = true;
           boot.loader.efi.efiSysMountPoint = "/boot";
           fileSystems."/boot".neededForBoot = true;
+          fileSystems."/".device = "/dev/disk/by-partlabel/disk-main-root";
 
           networking.useDHCP = !vmConfig.useCloudInitNetworking;
           networking.useNetworkd = vmConfig.useCloudInitNetworking;
