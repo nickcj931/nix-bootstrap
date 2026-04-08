@@ -48,23 +48,20 @@ Once booted into the NixOS installer:
    cd nix-bootstrap
    ```
 
-2. **Partition, format, and mount the disk with disko**:
+2. **Run the bootstrap script**:
+   ```bash
+   ./install.sh
+   ```
+
+3. **Manual equivalent if needed**:
    ```bash
    sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
      --mode destroy,format,mount ./modules/disko.nix
-   ```
-
-3. **Generate hardware config for the mounted system**:
-   ```bash
    sudo nixos-generate-config --root /mnt
-   ```
-
-4. **Run the installation**:
-   ```bash
    sudo nixos-install --flake .#generic-vm
    ```
 
-5. **Reboot** into the installed system. SSH keys will be applied on first boot via Cloud-Init.
+4. **Reboot** into the installed system. SSH keys will be applied on first boot via Cloud-Init.
 
 ## Features
 
