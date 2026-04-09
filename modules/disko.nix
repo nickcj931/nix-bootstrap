@@ -27,13 +27,13 @@ in
             };
           };
 
-        root = {
-          size = "100%";
-          content = {
-            type = "btrfs";
-            mountpoint = "/partition-root";
-            extraArgs = [ "-f" ];
-            subvolumes = {
+          root = {
+            size = "100%";
+            content = {
+              type = "btrfs";
+              mountpoint = "/partition-root";
+              extraArgs = [ "-L" "nixos-root" "-f" ];
+              subvolumes = {
                 "/@root" = {
                   mountpoint = "/";
                   mountOptions = relatimeMountOptions;
