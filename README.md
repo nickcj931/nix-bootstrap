@@ -51,6 +51,12 @@ Once booted into the NixOS installer:
    ./install.sh
    ```
 
+   If you need to debug the install before `nixos-install`, run:
+   ```bash
+   ./test_install.sh
+   ```
+   This writes `install-debug.txt` in the repo root so it can be copied off the VM for inspection.
+
 3. **Manual equivalent if needed**:
    ```bash
    sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
