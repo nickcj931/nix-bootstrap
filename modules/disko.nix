@@ -32,7 +32,7 @@ in
             content = {
               type = "btrfs";
               mountpoint = "/partition-root";
-              extraArgs = [ "-L" "nixos-root" "-f" ];
+              extraArgs = [ "-f" ];
               subvolumes = {
                 "/@root" = {
                   mountpoint = "/";

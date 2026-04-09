@@ -27,16 +27,6 @@
         disko.nixosModules.disko
         ./modules/disko.nix
         ./modules/ssh.nix
-        ({ lib, ... }: {
-          fileSystems."/".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/home".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/nix".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/var".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/var/log".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/.snapshots".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/.swapvol".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-          fileSystems."/partition-root".device = lib.mkForce "/dev/disk/by-label/nixos-root";
-        })
       ] ++ nixpkgs.lib.optional (generatedHardwareModule != null) generatedHardwareModule ++ [
         {
           nixpkgs.hostPlatform = vmConfig.hostPlatform;
