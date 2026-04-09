@@ -3,6 +3,7 @@ set -euo pipefail
 
 ROOT_DIR="$(cd "$(dirname "$0")" && pwd)"
 OUT_FILE="$ROOT_DIR/install-debug.txt"
+NIX_FLAGS=(--extra-experimental-features 'nix-command flakes')
 
 exec > >(tee "$OUT_FILE") 2>&1
 
@@ -46,11 +47,11 @@ sed -n '1,220p' "$ROOT_DIR/hardware-configuration.nix"
 echo
 
 echo "==> Evaluated fileSystems using path flake"
-nix eval "path:$ROOT_DIR#nixosConfigurations.generic-vm.config.fileSystems" --json
+nix "${NIX_FLAGS[@]}" eval "path:$ROOT_DIR#nixosConfigurations.generic-vm.config.fileSystems" --json
 echo
 
 echo "==> Evaluated fileSystems using git flake"
-nix eval "$ROOT_DIR#nixosConfigurations.generic-vm.config.fileSystems" --json
+(cd "$ROOT_DIR" && nix "${NIX_FLAGS[@]}" eval .#nixosConfigurations.generic-vm.config.fileSystems --json)
 echo
 
 echo "==> Summary"
