@@ -56,8 +56,11 @@ Once booted into the NixOS installer:
    sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
      --mode destroy,format,mount --flake .#generic-vm
    sudo nixos-generate-config --root /mnt
+   sudo cp /mnt/etc/nixos/hardware-configuration.nix ./hardware-configuration.nix
    sudo nixos-install --flake .#generic-vm
    ```
+
+The generated `hardware-configuration.nix` is imported automatically by `flake.nix` when present. This is required so the installed system includes the correct storage and boot-time hardware config.
 
 4. **Reboot** into the installed system. SSH keys will be applied on first boot via Cloud-Init.
 

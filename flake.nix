@@ -8,6 +8,11 @@
 
   outputs = { self, nixpkgs, disko }:
   let
+    generatedHardwareModule =
+      if builtins.pathExists ./hardware-configuration.nix
+      then ./hardware-configuration.nix
+      else null;
+
     vmConfig = {
       diskDevice = "/dev/sda";
       swapSize = "16G";
@@ -22,6 +27,7 @@
         disko.nixosModules.disko
         ./modules/disko.nix
         ./modules/ssh.nix
+      ] ++ nixpkgs.lib.optional (generatedHardwareModule != null) generatedHardwareModule ++ [
         {
           nixpkgs.hostPlatform = vmConfig.hostPlatform;
 
@@ -31,7 +37,6 @@
           boot.loader.efi.canTouchEfiVariables = true;
           boot.loader.efi.efiSysMountPoint = "/boot";
           fileSystems."/boot".neededForBoot = true;
-          fileSystems."/".device = "/dev/disk/by-partlabel/disk-main-root";
 
           networking.useDHCP = !vmConfig.useCloudInitNetworking;
           networking.useNetworkd = vmConfig.useCloudInitNetworking;

@@ -10,6 +10,10 @@ sudo nix --experimental-features 'nix-command flakes' run github:nix-community/d
 echo "==> Generating hardware configuration"
 sudo nixos-generate-config --root /mnt
 
+echo "==> Copying generated hardware configuration into repo"
+sudo cp /mnt/etc/nixos/hardware-configuration.nix "$ROOT_DIR/hardware-configuration.nix"
+sudo chown "$(id -u)":"$(id -g)" "$ROOT_DIR/hardware-configuration.nix"
+
 echo "==> Installing NixOS from flake"
 sudo nixos-install --flake "$ROOT_DIR#generic-vm"
 
