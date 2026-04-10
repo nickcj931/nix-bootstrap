@@ -41,6 +41,11 @@
           networking.useDHCP = !vmConfig.useCloudInitNetworking;
           networking.useNetworkd = vmConfig.useCloudInitNetworking;
 
+          # Tailscale VPN
+          services.tailscale.enable = true;
+          networking.firewall.trustedInterfaces = [ "tailscale0" ];
+          networking.firewall.allowedUDPPorts = [ 41641 ];
+
           system.stateVersion = vmConfig.stateVersion;
         }
       ];
