@@ -7,8 +7,8 @@ echo "==> Running disko"
 sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
   --mode destroy,format,mount --flake "$ROOT_DIR#generic-vm"
 
-echo "==> Generating hardware configuration"
-sudo nixos-generate-config --root /mnt
+echo "==> Generating hardware configuration (filesystems handled by disko)"
+sudo nixos-generate-config --no-filesystems --root /mnt
 
 echo "==> Copying generated hardware configuration into repo"
 sudo cp /mnt/etc/nixos/hardware-configuration.nix "$ROOT_DIR/hardware-configuration.nix"
