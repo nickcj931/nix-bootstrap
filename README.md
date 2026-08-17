@@ -1,6 +1,6 @@
 # nix-bootstrap
 
-A lightweight NixOS bootstrap repository designed to quickly deploy configured VMs using `disko` and Flakes. This version supports **Cloud-Init** for automated SSH key injection.
+A lightweight NixOS bootstrap repository designed to quickly deploy configured VMs using `disko` and Flakes. This repo is intentionally focused on generic VM bootstrap and Cloud-Init SSH access.
 
 ## Configure In One Place
 
@@ -61,7 +61,7 @@ Once booted into the NixOS installer:
    ```bash
    sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- \
      --mode destroy,format,mount --flake .#generic-vm
-   sudo nixos-generate-config --root /mnt
+   sudo nixos-generate-config --no-filesystems --root /mnt
    sudo cp /mnt/etc/nixos/hardware-configuration.nix ./hardware-configuration.nix
    sudo nixos-install --flake .#generic-vm
    ```
@@ -82,3 +82,8 @@ The generated `hardware-configuration.nix` is imported automatically by `flake.n
 - `flake.nix`: Main entry point (edit this to configure your VM).
 - `modules/`: Contains reusable NixOS modules (`disko`, `ssh`).
 - `README.md`: Usage instructions.
+
+## Repo scope
+
+Keep `nix-bootstrap` focused on generic VM installation and bootstrap only.
+Service-specific roles should live in separate repositories or downstream flakes.

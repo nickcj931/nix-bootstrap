@@ -22,14 +22,14 @@
 - Expected workflow is Proxmox-side injection before install:
   - `qm set <VMID> --ipconfig0 ip=dhcp`
   - `qm set <VMID> --sshkey /root/.ssh/bootstrapKeys.pub`
-- `modules/ssh.nix` should only enable `services.cloud-init` and `services.openssh`; do not hardcode keys back into the module.
+- `modules/ssh.nix` should only enable Cloud-Init, OpenSSH, and QEMU guest-agent support; do not hardcode keys back into the module.
 
 ## Install Flow
 - From the live ISO:
   - `git clone git@github.com:nickcj931/nix-bootstrap.git`
   - `cd nix-bootstrap`
   - `sudo nix --experimental-features 'nix-command flakes' run github:nix-community/disko/latest -- --mode destroy,format,mount --flake .#generic-vm`
-  - `sudo nixos-generate-config --root /mnt`
+  - `sudo nixos-generate-config --no-filesystems --root /mnt`
   - `sudo nixos-install --flake .#generic-vm`
 - If disko is not run first, bootloader install will fail because `/boot` will not actually exist as a mounted EFI partition.
 - Do not run disko directly against `./modules/disko.nix`; it depends on `vmConfig` from the flake via `specialArgs`.

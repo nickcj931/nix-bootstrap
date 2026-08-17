@@ -14,8 +14,12 @@ echo "==> Copying generated hardware configuration into repo"
 sudo cp /mnt/etc/nixos/hardware-configuration.nix "$ROOT_DIR/hardware-configuration.nix"
 sudo chown "$(id -u)":"$(id -g)" "$ROOT_DIR/hardware-configuration.nix"
 
-echo "==> Staging hardware config so the flake can see it"
-git -C "$ROOT_DIR" add -f hardware-configuration.nix
+if git -C "$ROOT_DIR" rev-parse --is-inside-work-tree >/dev/null 2>&1; then
+  echo "==> Staging hardware config so the flake can see it"
+  git -C "$ROOT_DIR" add -f hardware-configuration.nix
+else
+  echo "==> No git checkout detected; skipping git add for hardware-configuration.nix"
+fi
 
 echo "==> Installing NixOS from flake"
 sudo nixos-install --flake "$ROOT_DIR#generic-vm"

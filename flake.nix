@@ -16,6 +16,7 @@
     vmConfig = {
       diskDevice = "/dev/sda";
       swapSize = "16G";
+      hostName = "nixos-vm";
       hostPlatform = "x86_64-linux";
       stateVersion = "25.11";
       useCloudInitNetworking = true;
@@ -40,11 +41,9 @@
 
           networking.useDHCP = !vmConfig.useCloudInitNetworking;
           networking.useNetworkd = vmConfig.useCloudInitNetworking;
+          networking.hostName = vmConfig.hostName;
 
-          # Tailscale VPN
-          services.tailscale.enable = true;
-          networking.firewall.trustedInterfaces = [ "tailscale0" ];
-          networking.firewall.allowedUDPPorts = [ 41641 ];
+          nix.settings.experimental-features = [ "nix-command" "flakes" ];
 
           system.stateVersion = vmConfig.stateVersion;
         }
